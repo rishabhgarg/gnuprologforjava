@@ -109,3 +109,4 @@ abstract public interface CharStream
 	abstract public void Done();
 
 }
+
