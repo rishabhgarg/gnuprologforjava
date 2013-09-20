@@ -35,9 +35,10 @@ import java.util.HashMap;
 
 /**
  * This class is intendent for printing terms.
- * 
+ *
  * @author Constantine A. Plotnikov.
- * @version 0.0.1
+ * @author Rishabh Garg
+ * @version 0.3
  */
 
 public class TermWriter extends PrintWriter
@@ -47,17 +48,17 @@ public class TermWriter extends PrintWriter
 	protected static final CompoundTermTag curly1Tag = CompoundTermTag.get("{}", 1);
 	protected static final OperatorSet defaultOperatorSet = new OperatorSet();
 	protected static final WriteOptions defaultWriteOptions = new WriteOptions(defaultOperatorSet);
-
+    
 	static
 	{
 		defaultWriteOptions.ignoreOps = false;
 		defaultWriteOptions.quoted = true;
 		defaultWriteOptions.numbervars = false;
 	}
-
+    
 	/**
 	 * convert term passed as argument to string
-	 * 
+	 *
 	 * @param term
 	 *          a term to convert
 	 * @return String representation of the term
@@ -77,10 +78,10 @@ public class TermWriter extends PrintWriter
 			throw new IllegalArgumentException("BAD TERM: " + ex.toString());
 		}
 	}
-
+    
 	/**
 	 * convert term passed as argument to string
-	 * 
+	 *
 	 * @param term
 	 *          a term to convert
 	 * @param options
@@ -102,10 +103,10 @@ public class TermWriter extends PrintWriter
 			throw new IllegalArgumentException("BAD TERM: " + ex.toString());
 		}
 	}
-
+    
 	/**
 	 * create term writer over other writer.
-	 * 
+	 *
 	 * @param w
 	 *          underlying writer
 	 */
@@ -113,10 +114,10 @@ public class TermWriter extends PrintWriter
 	{
 		super(w, true);
 	}
-
+    
 	/**
 	 * print term using specified write options
-	 * 
+	 *
 	 * @param options
 	 *          write options
 	 * @param term
@@ -126,10 +127,10 @@ public class TermWriter extends PrintWriter
 	{
 		displayTerm(options, 1200, term);
 	}
-
+    
 	/**
 	 * print term using default write options
-	 * 
+	 *
 	 * @param term
 	 *          term to print
 	 */
@@ -137,10 +138,10 @@ public class TermWriter extends PrintWriter
 	{
 		print((WriteOptions) defaultWriteOptions.clone(), term);
 	}
-
+    
 	/**
 	 * print term using default write options and specified operator set
-	 * 
+	 *
 	 * @param opSet
 	 *          operator set to use
 	 * @param term
@@ -154,10 +155,10 @@ public class TermWriter extends PrintWriter
 		options.numbervars = false;
 		print(options, term);
 	}
-
+    
 	/**
 	 * display term
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param priority
@@ -211,10 +212,10 @@ public class TermWriter extends PrintWriter
 			displayJavaObject(options, (JavaObjectTerm) term);
 		}
 	}
-
+    
 	/**
 	 * display compound term
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param priority
@@ -303,7 +304,7 @@ public class TermWriter extends PrintWriter
 					default:
 						throw new IllegalArgumentException("Wrong operator specifier = " + op.specifier);
 				}
-
+                
 				if (op.priority > priority)
 				{
 					print(')');
@@ -311,7 +312,7 @@ public class TermWriter extends PrintWriter
 				return;
 			}
 		}
-
+        
 		// canonical form term
 		displayAtom(options, term.tag.functor);
 		print('(');
@@ -325,10 +326,10 @@ public class TermWriter extends PrintWriter
 		}
 		print(')');
 	}
-
+    
 	/**
 	 * display list
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param term
@@ -357,10 +358,10 @@ public class TermWriter extends PrintWriter
 			displayTerm(options, 999, tail);
 		}
 	}
-
+    
 	/**
 	 * display float term
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param term
@@ -377,10 +378,10 @@ public class TermWriter extends PrintWriter
 			print(term.value);
 		}
 	}
-
+    
 	/**
 	 * display integer term
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param term
@@ -390,10 +391,10 @@ public class TermWriter extends PrintWriter
 	{
 		print(term.value);
 	}
-
+    
 	/**
 	 * display variable term
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param variable
@@ -418,7 +419,7 @@ public class TermWriter extends PrintWriter
 		}
 		print(name);
 	}
-
+    
 	protected void displayJavaObject(WriteOptions options, JavaObjectTerm term)
 	{
 		if (options.javaObjects)
@@ -451,17 +452,17 @@ public class TermWriter extends PrintWriter
 			}
 		}
 	}
-
+    
 	protected static boolean isOperator(OperatorSet set, AtomTerm term)
 	{
 		Operator fxOp = set.lookupFx(term.value);
 		Operator xfOp = set.lookupXf(term.value);
 		return fxOp != Operator.nonOperator || xfOp != Operator.nonOperator;
 	}
-
+    
 	/**
 	 * display atom.
-	 * 
+	 *
 	 * @param options
 	 *          current write options
 	 * @param atom
@@ -479,10 +480,10 @@ public class TermWriter extends PrintWriter
 			print(atom.value);
 		}
 	}
-
+    
 	/**
 	 * get single quoted string.
-	 * 
+	 *
 	 * @param s
 	 *          string to quote
 	 * @return single quoted string
@@ -499,10 +500,10 @@ public class TermWriter extends PrintWriter
 		buf.append('\'');
 		return buf.toString();
 	}
-
+    
 	/**
 	 * check if the string is needed to be quoted .
-	 * 
+	 *
 	 * @param s
 	 *          string to test
 	 * @return true if string need to quoted in displayq
@@ -551,13 +552,13 @@ public class TermWriter extends PrintWriter
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
-
+    
 	/**
 	 * check if character is solo char.
-	 * 
+	 *
 	 * @param c
 	 *          character to test
 	 * @return true if character is solo char
@@ -581,10 +582,10 @@ public class TermWriter extends PrintWriter
 				return false;
 		}
 	}
-
+    
 	/**
 	 * check if character is graphics char.
-	 * 
+	 *
 	 * @param ch
 	 *          character to test
 	 * @return true if character is graphics char
@@ -613,36 +614,39 @@ public class TermWriter extends PrintWriter
 			default:
 				return false;
 		}
-
+        
 	}
-
+    
 	/**
 	 * check if character is valid start of atom.
-	 * 
+	 *
 	 * @param c
 	 *          character to test
 	 * @return true if character is valid start of atom.
 	 */
 	protected static boolean isAtomStartChar(char c)
 	{
-		return 'a' <= c && c <= 'z';
+		return ('a' <= c && c <= 'z') || UnicodeWriter.isAtomStartCharUnicode(c);
 	}
-
+    
 	/**
 	 * check if character is valid continuation of atom.
-	 * 
+	 *
 	 * @param c
 	 *          character to test
 	 * @return true if character is valid continuation of atom.
 	 */
 	protected static boolean isAtomChar(char c)
 	{
-		return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '_';
+		return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
+        || ('0' <= c && c <= '9')
+        || (c == '_')
+        || UnicodeWriter.isAtomCharUnicode(c);
 	}
-
+    
 	/**
 	 * append quoted char to string buffer.
-	 * 
+	 *
 	 * @param buf
 	 *          buffer to which character is added
 	 * @param ch
@@ -659,34 +663,41 @@ public class TermWriter extends PrintWriter
 		}
 		else if (ch <= ' ' || ch >= 127) // if control character or non ascii
 		{
-			buf.append('\\');
 			switch (ch)
 			{
 				case '\u0007':
+                    buf.append('\\');
 					buf.append('a');
 					break;
 				case '\b':
-					buf.append('b');
+                    buf.append('\\');
+                    buf.append('b');
 					break;
 				case '\f':
-					buf.append('f');
+                    buf.append('\\');
+                    buf.append('f');
 					break;
 				case '\n':
-					buf.append('n');
+                    buf.append('\\');
+                    buf.append('n');
 					break;
 				case '\t':
-					buf.append('t');
+                    buf.append('\\');
+                    buf.append('t');
 					break;
 				case '\u000b':
-					buf.append('v');
+                    buf.append('\\');
+                    buf.append('v');
 					break;
 				case '\r':
-					buf.append('r');
+                    buf.append('\\');
+                    buf.append('r');
 					break;
 				default:
-					buf.append('x');
-					buf.append(Integer.toHexString(ch));
-					buf.append('\\');
+                    buf.append(ch);
+                    //buf.append('x');
+					//buf.append(Integer.toHexString(ch));
+					//buf.append('\\');
 			}
 		}
 		else

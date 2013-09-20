@@ -143,3 +143,4 @@ public class TokenMgrError extends Error
 		this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
 	}
 }
+
